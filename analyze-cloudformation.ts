@@ -18,15 +18,25 @@ interface CloudFormationTemplate {
 const permissionMap: PermissionMap = JSON.parse(fs.readFileSync('permission-map.json', 'utf8'));
 
 const customSchema = YAML.DEFAULT_SCHEMA.extend([
-  new YAML.Type('!Ref', { kind: 'scalar', construct: data => data }),
-  new YAML.Type('!Sub', { kind: 'scalar', construct: data => data }),
-  new YAML.Type('!GetAtt', { kind: 'sequence', construct: data => data.join('.') }),
-  new YAML.Type('!Join', { kind: 'sequence', construct: data => data.join('') }),
-  new YAML.Type('!If', { kind: 'sequence', construct: data => data }),
-  new YAML.Type('!Equals', { kind: 'sequence', construct: data => data }),
-  new YAML.Type('!And', { kind: 'sequence', construct: data => data }),
-  new YAML.Type('!Or', { kind: 'sequence', construct: data => data }),
-  new YAML.Type('!Not', { kind: 'sequence', construct: data => data }),
+  new YAML.Type('!Ref', { kind: 'scalar', construct: data => ({ 'Ref': data }) }),
+  new YAML.Type('!Sub', { kind: 'scalar', construct: data => ({ 'Fn::Sub': data }) }),
+  new YAML.Type('!GetAtt', {
+    kind: 'scalar',
+    construct: data => ({ 'Fn::GetAtt': data.split('.') })
+  }),
+  new YAML.Type('!GetAtt', {
+    kind: 'sequence',
+    construct: data => ({ 'Fn::GetAtt': data })
+  }),
+  new YAML.Type('!Join', { kind: 'sequence', construct: data => ({ 'Fn::Join': data }) }),
+  new YAML.Type('!FindInMap', { kind: 'sequence', construct: data => ({ 'Fn::FindInMap': data }) }),
+  new YAML.Type('!If', { kind: 'sequence', construct: data => ({ 'Fn::If': data }) }),
+  new YAML.Type('!Equals', { kind: 'sequence', construct: data => ({ 'Fn::Equals': data }) }),
+  new YAML.Type('!And', { kind: 'sequence', construct: data => ({ 'Fn::And': data }) }),
+  new YAML.Type('!Or', { kind: 'sequence', construct: data => ({ 'Fn::Or': data }) }),
+  new YAML.Type('!Not', { kind: 'sequence', construct: data => ({ 'Fn::Not': data }) }),
+  new YAML.Type('!Base64', { kind: 'mapping', construct: data => ({ 'Fn::Base64': data }) }),
+
 ]);
 
 function parseTemplate(filePath: string): CloudFormationTemplate {
@@ -75,7 +85,7 @@ async function main() {
   const templatePath = process.argv[2];
 
   if (!templatePath) {
-    console.error('Usage: ts-node analyze-cloudformation.ts <path-to-template.yaml>');
+    console.error('Usage: npx ts-node analyze-cloudformation.ts <path-to-template.yaml>');
     process.exit(1);
   }
 

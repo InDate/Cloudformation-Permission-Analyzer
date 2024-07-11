@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Example CloudFormation template for a VPC with public and private subnets, EC2 instances, an S3 bucket, and an RDS instance.
+Description: Example CloudFormation template for various AWS resources.
 
 Parameters:
   KeyPairName:
@@ -133,6 +133,81 @@ Resources:
         - !Ref PrivateSubnet
       DBSubnetGroupName: example-dbsubnetgroup
 
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: example-log-group
+      RetentionInDays: 7
+
+  IAMPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: example-policy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:*
+            Resource: '*'
+      Roles:
+        - !Ref ExampleRole
+
+  ExampleRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: example-instance-profile
+      Roles:
+        - !Ref ExampleRole
+
+  AutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: example-asg
+      LaunchTemplate:
+        LaunchTemplateId: !Ref ExampleLaunchTemplate
+        Version: !GetAtt ExampleLaunchTemplate.LatestVersionNumber
+      MinSize: '1'
+      MaxSize: '3'
+      DesiredCapacity: '2'
+      VPCZoneIdentifier:
+        - !Ref PublicSubnet
+
+  ExampleLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: example-launch-template
+      LaunchTemplateData:
+        ImageId: ami-0abcdef1234567890
+        InstanceType: t2.micro
+        KeyName: !Ref KeyPairName
+        SecurityGroupIds:
+          - !Ref InstanceSecurityGroup
+
+  RecordSetGroup:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: !Join ['', [!FindInMap [EnvMap, !Ref Environment, zone], '.']]
+      Comment: Zone apex alias targeted to LDAPELB LoadBalancer.
+      RecordSets:
+        - Name: !Join ['.', ['ldap-my', !FindInMap [EnvMap, !Ref Environment, zone]]]
+          Type: A
+          AliasTarget:
+            HostedZoneId: !GetAtt LDAPELB.CanonicalHostedZoneNameID
+            DNSName: !GetAtt LDAPELB.DNSName
+
 Outputs:
   PublicInstanceId:
     Description: Instance ID of the public EC2 instance
@@ -149,3 +224,27 @@ Outputs:
   RDSInstanceEndpoint:
     Description: Endpoint of the RDS instance
     Value: !GetAtt [RDSInstance, Endpoint.Address]
+
+  LogGroupName:
+    Description: Name of the log group
+    Value: !Ref LogGroup
+
+  IAMPolicyArn:
+    Description: ARN of the IAM policy
+    Value: !Ref IAMPolicy
+
+  InstanceProfileName:
+    Description: Name of the instance profile
+    Value: !Ref InstanceProfile
+
+  AutoScalingGroupName:
+    Description: Name of the Auto Scaling group
+    Value: !Ref AutoScalingGroup
+
+  LaunchTemplateId:
+    Description: ID of the launch template
+    Value: !Ref ExampleLaunchTemplate
+
+  RecordSetGroupName:
+    Description: Name of the record set group
+    Value: !Ref RecordSetGroup

@@ -1,95 +1,145 @@
 {
+    "AWS::Route53::RecordSetGroup": [
+        "route53:ChangeResourceRecordSets",
+        "route53:CreateHostedZone",
+        "route53:DeleteHostedZone",
+        "route53:ListResourceRecordSets"
+    ],
+    "AWS::EC2::SecurityGroupIngress": [
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:RevokeSecurityGroupIngress",
+        "ec2:DescribeSecurityGroups"
+    ],
+    "AWS::ElasticLoadBalancing::LoadBalancer": [
+        "elasticloadbalancing:CreateLoadBalancer",
+        "elasticloadbalancing:DeleteLoadBalancer",
+        "elasticloadbalancing:DescribeLoadBalancers",
+        "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+        "elasticloadbalancing:DeregisterInstancesFromLoadBalancer"
+    ],
+    "AWS::EC2::LaunchTemplate": [
+        "ec2:CreateLaunchTemplate",
+        "ec2:CreateLaunchTemplateVersion",
+        "ec2:DeleteLaunchTemplate",
+        "ec2:DescribeLaunchTemplates"
+    ],
+    "AWS::IAM::Policy": [
+        "iam:CreatePolicy",
+        "iam:DeletePolicy",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:ListPolicies"
+    ],
+    "AWS::IAM::InstanceProfile": [
+        "iam:CreateInstanceProfile",
+        "iam:DeleteInstanceProfile",
+        "iam:AddRoleToInstanceProfile",
+        "iam:RemoveRoleFromInstanceProfile",
+        "iam:GetInstanceProfile"
+    ],
+    "AWS::Logs::LogGroup": [
+        "logs:CreateLogGroup",
+        "logs:DeleteLogGroup",
+        "logs:DescribeLogGroups",
+        "logs:PutRetentionPolicy"
+    ],
+    "AWS::AutoScaling::AutoScalingGroup": [
+        "autoscaling:CreateAutoScalingGroup",
+        "autoscaling:UpdateAutoScalingGroup",
+        "autoscaling:DeleteAutoScalingGroup",
+        "autoscaling:DescribeAutoScalingGroups"
+    ],
     "AWS::EC2::VPC": [
-      "ec2:CreateVpc",
-      "ec2:DeleteVpc",
-      "ec2:DescribeVpcs"
+        "ec2:CreateVpc",
+        "ec2:DeleteVpc",
+        "ec2:DescribeVpcs"
     ],
     "AWS::EC2::InternetGateway": [
-      "ec2:CreateInternetGateway",
-      "ec2:DeleteInternetGateway",
-      "ec2:AttachInternetGateway",
-      "ec2:DetachInternetGateway",
-      "ec2:DescribeInternetGateways"
+        "ec2:CreateInternetGateway",
+        "ec2:DeleteInternetGateway",
+        "ec2:AttachInternetGateway",
+        "ec2:DetachInternetGateway",
+        "ec2:DescribeInternetGateways"
     ],
     "AWS::EC2::VPCGatewayAttachment": [
-      "ec2:AttachInternetGateway",
-      "ec2:DetachInternetGateway"
+        "ec2:AttachInternetGateway",
+        "ec2:DetachInternetGateway"
     ],
     "AWS::EC2::Subnet": [
-      "ec2:CreateSubnet",
-      "ec2:DeleteSubnet",
-      "ec2:DescribeSubnets"
+        "ec2:CreateSubnet",
+        "ec2:DeleteSubnet",
+        "ec2:DescribeSubnets"
     ],
     "AWS::EC2::RouteTable": [
-      "ec2:CreateRouteTable",
-      "ec2:DeleteRouteTable",
-      "ec2:DescribeRouteTables"
+        "ec2:CreateRouteTable",
+        "ec2:DeleteRouteTable",
+        "ec2:DescribeRouteTables"
     ],
     "AWS::EC2::Route": [
-      "ec2:CreateRoute",
-      "ec2:DeleteRoute",
-      "ec2:DescribeRouteTables"
+        "ec2:CreateRoute",
+        "ec2:DeleteRoute",
+        "ec2:DescribeRouteTables"
     ],
     "AWS::EC2::SubnetRouteTableAssociation": [
-      "ec2:AssociateRouteTable",
-      "ec2:DisassociateRouteTable",
-      "ec2:DescribeRouteTables"
+        "ec2:AssociateRouteTable",
+        "ec2:DisassociateRouteTable",
+        "ec2:DescribeRouteTables"
     ],
     "AWS::EC2::SecurityGroup": [
-      "ec2:CreateSecurityGroup",
-      "ec2:DeleteSecurityGroup",
-      "ec2:AuthorizeSecurityGroupIngress",
-      "ec2:RevokeSecurityGroupIngress",
-      "ec2:DescribeSecurityGroups"
+        "ec2:CreateSecurityGroup",
+        "ec2:DeleteSecurityGroup",
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:RevokeSecurityGroupIngress",
+        "ec2:DescribeSecurityGroups"
     ],
     "AWS::EC2::Instance": [
-      "ec2:RunInstances",
-      "ec2:DescribeInstances",
-      "ec2:TerminateInstances",
-      "ec2:ModifyInstanceAttribute"
+        "ec2:RunInstances",
+        "ec2:DescribeInstances",
+        "ec2:TerminateInstances",
+        "ec2:ModifyInstanceAttribute"
     ],
     "AWS::S3::Bucket": [
-      "s3:CreateBucket",
-      "s3:PutBucketPolicy",
-      "s3:DeleteBucket",
-      "s3:ListBucket"
+        "s3:CreateBucket",
+        "s3:PutBucketPolicy",
+        "s3:DeleteBucket",
+        "s3:ListBucket"
     ],
     "AWS::IAM::Role": [
-      "iam:CreateRole",
-      "iam:PutRolePolicy",
-      "iam:AttachRolePolicy",
-      "iam:DeleteRole",
-      "iam:DetachRolePolicy"
+        "iam:CreateRole",
+        "iam:PutRolePolicy",
+        "iam:AttachRolePolicy",
+        "iam:DeleteRole",
+        "iam:DetachRolePolicy"
     ],
     "AWS::CloudFormation::Stack": [
-      "cloudformation:CreateStack",
-      "cloudformation:DescribeStacks",
-      "cloudformation:DeleteStack",
-      "cloudformation:UpdateStack"
+        "cloudformation:CreateStack",
+        "cloudformation:DescribeStacks",
+        "cloudformation:DeleteStack",
+        "cloudformation:UpdateStack"
     ],
     "AWS::DynamoDB::Table": [
-      "dynamodb:CreateTable",
-      "dynamodb:DeleteTable",
-      "dynamodb:DescribeTable",
-      "dynamodb:UpdateTable",
-      "dynamodb:Scan",
-      "dynamodb:Query",
-      "dynamodb:GetItem",
-      "dynamodb:PutItem",
-      "dynamodb:DeleteItem"
+        "dynamodb:CreateTable",
+        "dynamodb:DeleteTable",
+        "dynamodb:DescribeTable",
+        "dynamodb:UpdateTable",
+        "dynamodb:Scan",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:DeleteItem"
     ],
     "AWS::Lambda::Function": [
-      "lambda:CreateFunction",
-      "lambda:DeleteFunction",
-      "lambda:UpdateFunctionCode",
-      "lambda:InvokeFunction",
-      "lambda:GetFunction"
+        "lambda:CreateFunction",
+        "lambda:DeleteFunction",
+        "lambda:UpdateFunctionCode",
+        "lambda:InvokeFunction",
+        "lambda:GetFunction"
     ],
     "AWS::RDS::DBInstance": [
-      "rds:CreateDBInstance",
-      "rds:DeleteDBInstance",
-      "rds:DescribeDBInstances",
-      "rds:ModifyDBInstance"
+        "rds:CreateDBInstance",
+        "rds:DeleteDBInstance",
+        "rds:DescribeDBInstances",
+        "rds:ModifyDBInstance"
     ],
     "AWS::RDS::DBSubnetGroup": [
         "rds:CreateDBSubnetGroup",
@@ -97,28 +147,27 @@
         "rds:DescribeDBSubnetGroups"
     ],
     "AWS::SNS::Topic": [
-      "sns:CreateTopic",
-      "sns:DeleteTopic",
-      "sns:Subscribe",
-      "sns:Unsubscribe",
-      "sns:Publish",
-      "sns:GetTopicAttributes",
-      "sns:SetTopicAttributes"
+        "sns:CreateTopic",
+        "sns:DeleteTopic",
+        "sns:Subscribe",
+        "sns:Unsubscribe",
+        "sns:Publish",
+        "sns:GetTopicAttributes",
+        "sns:SetTopicAttributes"
     ],
     "AWS::SQS::Queue": [
-      "sqs:CreateQueue",
-      "sqs:DeleteQueue",
-      "sqs:SendMessage",
-      "sqs:ReceiveMessage",
-      "sqs:DeleteMessage",
-      "sqs:GetQueueAttributes",
-      "sqs:SetQueueAttributes"
+        "sqs:CreateQueue",
+        "sqs:DeleteQueue",
+        "sqs:SendMessage",
+        "sqs:ReceiveMessage",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:SetQueueAttributes"
     ],
     "AWS::CloudWatch::Alarm": [
-      "cloudwatch:PutMetricAlarm",
-      "cloudwatch:DeleteAlarms",
-      "cloudwatch:DescribeAlarms",
-      "cloudwatch:SetAlarmState"
+        "cloudwatch:PutMetricAlarm",
+        "cloudwatch:DeleteAlarms",
+        "cloudwatch:DescribeAlarms",
+        "cloudwatch:SetAlarmState"
     ]
-  }
-  
+}
